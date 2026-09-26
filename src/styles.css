@@ -1,3 +1,40 @@
-/* You can add global styles to this file, and also import other style files */
-
-@import 'tailwindcss';
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap');
+:root { font-family: 'DM Sans', sans-serif; color: #253b54; background: #f5f7fb; --ink: #253b54; --muted: #78889b; --blue: #1765a5; --blue-dark: #104f83; --yellow: #ffd540; --red: #e84d4d; --surface: #fff; --line: #e3e9f0; --shadow: 0 14px 45px #24436514; }
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; }
+h1, h2, h3, p { margin-top: 0; }
+h1, h2, h3 { font-family: Outfit, sans-serif; }
+button, input { font: inherit; }
+button { cursor: pointer; }
+button:disabled { cursor: not-allowed; opacity: .5; }
+:focus-visible { outline: 3px solid #1765a5; outline-offset: 3px; }
+.page { max-width: 1320px; margin: 0 auto; padding: 48px 32px 76px; }
+.page-heading { margin-bottom: 28px; }
+.eyebrow { color: var(--blue); font-size: 12px; text-transform: uppercase; font-weight: 800; letter-spacing: .18em; }
+.page-heading h1 { margin: 8px 0; font-size: clamp(31px, 4vw, 48px); line-height: 1.08; }
+.page-heading p { color: var(--muted); line-height: 1.6; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; box-shadow: var(--shadow); }
+.button { display: inline-flex; justify-content: center; align-items: center; gap: 9px; padding: 13px 24px; border-radius: 11px; border: 1px solid transparent; font-weight: 800; text-decoration: none; transition: transform .15s, background .15s; }
+.button:hover:not(:disabled) { transform: translateY(-2px); }
+.button-primary { color: white; background: var(--blue); }
+.button-primary:hover:not(:disabled) { background: var(--blue-dark); }
+.button-secondary { color: var(--blue); background: white; border-color: var(--line); }
+.notice { border-radius: 12px; padding: 14px 18px; line-height: 1.5; }
+.notice-error { background: #fff0f0; color: #a62929; }
+.pokemon-row { transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
+.pokemon-row:hover { transform: translateX(4px); border-color: #bbd7eb; box-shadow: 0 8px 20px #2443650d; }
+.pokemon-row img, .team-slot img { transform-origin: center bottom; }
+.pokemon-row:hover img { animation: catalog-pokemon-bob 1.6s ease-in-out infinite; }
+.team-slot.filled { animation: team-slot-arrive .38s cubic-bezier(.2, .8, .2, 1) both; transition: transform .2s ease, box-shadow .2s ease; }
+.team-slot.filled:hover { transform: translateX(-3px); box-shadow: 0 8px 20px #24436512; }
+.team-slot:nth-child(2).filled { animation-delay: .07s; }
+.team-slot:nth-child(3).filled { animation-delay: .14s; }
+.team-slot.filled img { animation: selected-pokemon-float 2.8s ease-in-out infinite; }
+.summary-dashboard { display: grid; grid-template-columns: minmax(360px, .85fr) minmax(0, 1.35fr); gap: 24px; align-items: stretch; }
+.team-section { min-width: 0; }
+@media (max-width: 1120px) { .summary-dashboard { grid-template-columns: 1fr; } .team-section .section-heading { margin-top: 24px; } }
+@keyframes catalog-pokemon-bob { 0%, 100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-5px) rotate(1deg); } }
+@keyframes selected-pokemon-float { 0%, 100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-5px) rotate(1deg); } }
+@keyframes team-slot-arrive { from { opacity: 0; transform: translateX(14px) scale(.985); } to { opacity: 1; transform: translateX(0) scale(1); } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+@media (max-width: 600px) { .page { padding: 32px 18px 54px; } }

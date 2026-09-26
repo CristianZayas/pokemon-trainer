@@ -1,0 +1,44 @@
+<section class="page">
+  <div class="page-heading">
+    <span class="eyebrow">Paso 01 · Entrenador</span>
+    <h1>{{ isEditing ? 'Edita tu perfil' : 'Comienza tu aventura' }}</h1>
+    <p>Cuéntanos quién eres antes de elegir a tus compañeros Pokémon.</p>
+  </div>
+  <div class="profile-layout panel">
+    <div class="identity-pane">
+      <div class="identity-inner">
+        <span class="identity-kicker">ENTRENADOR POKÉMON</span>
+        <div class="photo-ring">
+          @if (photo()) { <img [src]="photo()" alt="Vista previa de tu fotografía" /> }
+          @else { <span aria-hidden="true">?</span> }
+        </div>
+        <label class="photo-button" for="photo">{{ photo() ? 'Cambiar fotografía' : 'Subir fotografía' }}</label>
+        <input id="photo" type="file" accept="image/png,image/jpeg,image/webp" (change)="onPhotoChange($event)" aria-describedby="photo-help" />
+        <small id="photo-help">PNG, JPG o WebP · Máximo 2 MB</small>
+        <div class="identity-bottom"><span class="pokeball" aria-hidden="true"></span><span>Tu historia empieza aquí.</span></div>
+      </div>
+    </div>
+    <form class="profile-form" [formGroup]="form" (ngSubmit)="save()" novalidate>
+      <div class="form-title"><span class="form-step">01 / 02</span><h2>Datos personales</h2><p>Los campos marcados con * son obligatorios.</p></div>
+      <div class="field-grid">
+        <label class="field full"><span>Nombre completo *</span><input formControlName="name" autocomplete="name" placeholder="Tu nombre de entrenador" />
+          @if (form.controls.name.touched && form.controls.name.invalid) { <small class="field-error">Ingresa al menos 2 caracteres.</small> }</label>
+        <label class="field full"><span>Pasatiempo favorito</span><input formControlName="hobby" placeholder="Por ejemplo, explorar nuevos lugares" /></label>
+        <label class="field date-field"><span>Fecha de nacimiento *</span><input formControlName="birthDate" type="date" [max]="maxBirthDate" (change)="onDateChange()" />
+          @if (form.controls.birthDate.touched && form.controls.birthDate.invalid) { <small class="field-error">Elige una fecha de nacimiento.</small> }</label>
+        <label class="field document-field"><span>{{ isAdult() ? 'DUI *' : 'Carnet de minoridad' }}</span><input formControlName="document" [placeholder]="isAdult() ? '########-#' : 'Opcional'" [attr.inputmode]="isAdult() ? 'numeric' : null" (input)="onDocumentInput()" /></label>
+      </div>
+      @if (age() !== null) { <p class="age-note">Edad: {{ age() }} años · {{ isAdult() ? 'Se requiere DUI válido.' : 'El carnet de minoridad es opcional.' }}</p> }
+      @if (error()) { <p class="notice notice-error" role="alert">{{ error() }}</p> }
+      <div class="form-actions">
+        @if (isEditing) { <button class="button button-secondary" type="button" (click)="confirmDiscard()">Descartar cambios</button> }
+        <button class="button button-primary" type="submit">{{ isEditing ? 'Guardar cambios' : 'Continuar al equipo' }} <span aria-hidden="true">→</span></button>
+      </div>
+    </form>
+  </div>
+</section>
+<dialog #discardDialog class="confirm-dialog" aria-labelledby="discard-title">
+  <h2 id="discard-title">¿Descartar cambios?</h2>
+  <p>Volverás a tu perfil sin guardar lo que acabas de editar.</p>
+  <div class="dialog-actions"><button class="button button-secondary" (click)="discardDialog.close()">Seguir editando</button><button class="button button-primary" (click)="discard()">Descartar</button></div>
+</dialog>
