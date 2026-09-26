@@ -18,13 +18,17 @@
     "@angular/platform-browser": "^22.2.0",
     "@angular/router": "^22.2.0",
     "rxjs": "~7.8.0",
-    "tslib": "^2.3.0"
+    "sockjs-client": "^1.6.1",
+    "tslib": "^2.3.0",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "@angular/build": "^22.2.0",
+    "@angular/cdk": "^22.2.0",
     "@angular/cli": "^22.2.0",
     "@angular/compiler-cli": "^22.2.0",
     "@tailwindcss/postcss": "^4.1.12",
+    "@types/sockjs-client": "^1.5.4",
     "jsdom": "^30.0.0",
     "postcss": "^8.5.3",
     "prettier": "^3.8.1",
