@@ -1,12 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
+import { APP_SETTINGS } from '../config/app-settings';
 import { ExternalContractError } from '@domain/errors';
 import { mapPokemon, Pokemon, PokemonDetailResponseSchema, PokemonListResponseSchema, PokemonSummary } from '../../domain/pokemon/pokemon.schema';
 
 @Injectable({ providedIn: 'root' })
 export class PokemonApiRepository {
   private readonly http = inject(HttpClient);
+  private readonly settings = inject(APP_SETTINGS);
 
   listFirstGeneration(): Observable<PokemonSummary[]> {
     return this.http.get<unknown>('pokemon?limit=151&offset=0').pipe(map(response => {
@@ -16,7 +18,7 @@ export class PokemonApiRepository {
         const match = /\/pokemon\/(\d+)\/?$/.exec(entry.url);
         if (!match) throw new ExternalContractError('Pokémon list ID');
         const id = Number(match[1]);
-        return { id, name: entry.name, sprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${id}.png` };
+        return { id, name: entry.name, sprite: new URL(`${id}.png`, this.settings.pokemonSpritesBaseUrl).toString() };
       });
     }));
   }

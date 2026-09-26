@@ -43,7 +43,7 @@ Open `http://localhost:8080`. The container serves the compiled SPA with an unpr
 - `features`: trainer form, Pokémon team selection, trainer summary. Routes are lazy loaded.
 - `shared`: reusable pure slug service.
 
-PokéAPI is read-only HTTP. The SockJS gateway is disabled by default through `APP_SETTINGS` because there is no realtime server in this exercise. To activate it, provide a compatible HTTPS SockJS endpoint and enable the flag; then extend Nginx CSP `connect-src` for that endpoint. The gateway transmits raw events and does not assume an undocumented STOMP protocol.
+PokéAPI and the Pokémon sprite CDN URLs live in `src/environments/environment.ts`; `environment.development.ts` supplies their development values through Angular file replacement. The SockJS gateway is disabled by default through `APP_SETTINGS` because there is no realtime server in this exercise. To activate it, provide a compatible HTTPS SockJS endpoint and enable the flag; then extend Nginx CSP `connect-src` for that endpoint. The gateway transmits raw events and does not assume an undocumented STOMP protocol.
 
 The request security interceptor limits API calls to the configured HTTPS origin. Zod validates external response bodies before domain mapping. TLS and browser certificate checks provide transport security; a frontend interceptor alone cannot prevent a man-in-the-middle attack.
 
