@@ -1,0 +1,11 @@
+.site-shell { min-height: 100dvh; display: flex; flex-direction: column; }
+.site-header { height: 82px; padding: 0 clamp(20px, 5vw, 84px); display: flex; align-items: center; justify-content: space-between; background: var(--surface); border-bottom: 1px solid var(--line); }
+.brand { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; font-size: 20px; font-weight: 750; letter-spacing: -.04em; }
+.brand strong { color: var(--blue); }
+.brand-mark { width: 34px; height: 34px; display: grid; place-items: center; border: 3px solid var(--ink); border-radius: 50%; background: linear-gradient(var(--red) 0 46%, var(--ink) 46% 54%, white 54%); }
+.brand-mark span { width: 10px; height: 10px; border: 2px solid var(--ink); background: white; border-radius: 50%; }
+.header-caption { color: var(--muted); font-size: 13px; font-weight: 650; }
+.app-main { flex: 1; width: 100%; }
+.site-footer { padding: 22px 24px; color: var(--muted); text-align: center; font-size: 12px; }
+.site-footer a { color: var(--blue); }
+@media (max-width: 600px) { .site-header { height: 68px; } .header-caption { display: none; } }
