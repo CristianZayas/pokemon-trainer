@@ -1,0 +1,29 @@
+.profile-layout { display: grid; grid-template-columns: minmax(260px, 39%) 1fr; overflow: hidden; min-height: 590px; }
+.identity-pane { padding: 30px; background: linear-gradient(145deg, #ffe880, #ffd13b 68%, #f9bb2a); }
+.identity-inner { min-height: 100%; border: 2px solid #ffffff80; border-radius: 20px; display: flex; flex-direction: column; align-items: center; padding: 42px 20px 24px; text-align: center; }
+.identity-kicker { color: #795b00; font-size: 12px; font-weight: 800; letter-spacing: .16em; }
+.photo-ring { width: 176px; height: 176px; margin: 38px 0 25px; border: 9px solid white; border-radius: 50%; box-shadow: 0 12px 32px #80670036; background: #fff8d9; overflow: hidden; display: grid; place-items: center; }
+.photo-ring img { width: 100%; height: 100%; object-fit: cover; }
+.photo-ring span { font: 800 80px Outfit, sans-serif; color: #ddb838; }
+.photo-button { background: var(--ink); color: white; border-radius: 10px; padding: 11px 20px; font-weight: 750; cursor: pointer; }
+input[type=file] { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.identity-inner small { margin-top: 12px; color: #795b00; }
+.identity-bottom { margin-top: auto; padding-top: 44px; color: #795b00; font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 9px; }
+.pokeball { width: 20px; height: 20px; border: 2px solid var(--ink); border-radius: 50%; background: linear-gradient(var(--red) 0 45%, var(--ink) 45% 55%, white 55%); }
+.profile-form { padding: clamp(28px, 5vw, 62px); display: flex; flex-direction: column; }
+.form-step { color: var(--blue); font-size: 12px; font-weight: 800; letter-spacing: .12em; }
+.form-title h2 { font-size: 30px; margin: 8px 0; }
+.form-title p { color: var(--muted); font-size: 14px; }
+.field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px 18px; margin-top: 24px; }
+.field { display: grid; gap: 8px; color: var(--ink); font-size: 13px; font-weight: 800; }
+.field.full { grid-column: 1 / -1; }
+.field input { width: 100%; min-width: 0; padding: 13px 14px; border-radius: 10px; border: 1px solid #d7e1eb; outline: none; background: white; color: var(--ink); font-size: 14px; font-weight: 500; }
+.field input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px #1765a51c; }
+.field-error { color: #bb3131; font-weight: 600; }
+.age-note { margin: 14px 0; color: var(--muted); font-size: 12px; }
+.form-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: auto; padding-top: 30px; }
+.confirm-dialog { max-width: 430px; border: 0; border-radius: 18px; padding: 30px; color: var(--ink); box-shadow: var(--shadow); }
+.confirm-dialog::backdrop { background: #152d49a8; }
+.confirm-dialog p { color: var(--muted); line-height: 1.5; }
+.dialog-actions { display: flex; justify-content: flex-end; gap: 10px; }
+@media (max-width: 760px) { .profile-layout { grid-template-columns: 1fr; } .identity-pane { padding: 16px; } .identity-inner { padding: 24px; } .photo-ring { width: 115px; height: 115px; margin: 18px 0; } .identity-bottom { display: none; } .field-grid { grid-template-columns: 1fr; } .field.full { grid-column: auto; } .form-actions { flex-wrap: wrap; } }
