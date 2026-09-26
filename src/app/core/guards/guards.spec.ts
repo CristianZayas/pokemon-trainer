@@ -3,12 +3,14 @@ import { provideRouter, Router, UrlTree } from '@angular/router';
 import { profileGuard } from './profile.guard';
 import { teamGuard } from './team.guard';
 import { TrainerSessionStore } from '../state/trainer-session.store';
-import { Pokemon } from '../../domain/pokemon/pokemon.schema';
+import { MemorySessionRepository } from '@core/session/memory-session.repository';
+import { SessionRepository } from '@core/session/session-repository.port';
+import { Pokemon } from '@domain/pokemon/pokemon.schema';
 
 const pokemon = (id: number): Pokemon => ({ id, name: `pokemon-${id}`, sprite: '', types: [], stats: [] });
 
 describe('trainer route guards', () => {
-  beforeEach(() => TestBed.configureTestingModule({ providers: [provideRouter([])] }));
+  beforeEach(() => TestBed.configureTestingModule({ providers: [provideRouter([]), { provide: SessionRepository, useClass: MemorySessionRepository }] }));
   it('redirects incomplete sessions and accepts a full team', () => {
     const store = TestBed.inject(TrainerSessionStore);
     const router = TestBed.inject(Router);

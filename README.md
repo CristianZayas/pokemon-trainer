@@ -14,7 +14,7 @@ npm ci
 npm start
 ```
 
-Open `http://localhost:4200`. The app needs internet access to load PokéAPI and Pokémon sprites. Profile data, uploaded photo, and identification stay only in browser memory and are lost on refresh.
+Open `http://localhost:4200`. The app needs internet access to load PokéAPI and Pokémon sprites. Profile data, uploaded photo, and identification are saved in the browser's local storage, so the in-progress profile survives a refresh on the same device.
 
 ## Checks
 
@@ -38,7 +38,7 @@ Open `http://localhost:8080`. The container serves the compiled SPA with an unpr
 
 ## Structure and decisions
 
-- `core`: configuration, HTTP interceptors, PokéAPI repository, session store, guards, realtime adapters.
+- `core`: configuration, HTTP interceptors, PokéAPI repository, session store, guards, logging, and realtime adapters.
 - `domain`: Zod schemas and inferred types, mapping and business rules.
 - `features`: trainer form, Pokémon team selection, trainer summary. Routes are lazy loaded.
 - `shared`: reusable pure slug service.
@@ -46,6 +46,8 @@ Open `http://localhost:8080`. The container serves the compiled SPA with an unpr
 PokéAPI is read-only HTTP. The SockJS gateway is disabled by default through `APP_SETTINGS` because there is no realtime server in this exercise. To activate it, provide a compatible HTTPS SockJS endpoint and enable the flag; then extend Nginx CSP `connect-src` for that endpoint. The gateway transmits raw events and does not assume an undocumented STOMP protocol.
 
 The request security interceptor limits API calls to the configured HTTPS origin. Zod validates external response bodies before domain mapping. TLS and browser certificate checks provide transport security; a frontend interceptor alone cannot prevent a man-in-the-middle attack.
+
+The console logger records failed HTTP requests with their method and URL. Its `LoggingService` port can be replaced with a remote reporter such as Sentry without changing features or interceptors.
 
 ## Git Flow
 

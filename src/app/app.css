@@ -6,6 +6,18 @@
 .brand-mark span { width: 10px; height: 10px; border: 2px solid var(--ink); background: white; border-radius: 50%; }
 .header-caption { color: var(--muted); font-size: 13px; font-weight: 650; }
 .app-main { flex: 1; width: 100%; }
+.app-loader { position: fixed; z-index: 20; inset: 82px 0 0; display: grid; place-content: center; justify-items: center; gap: 20px; background: #fffffff2; color: var(--blue); font-family: Outfit, sans-serif; font-size: 22px; }
+.loader-orb { position: relative; width: 112px; height: 140px; display: grid; place-items: center; }
+.loader-top, .loader-bottom { position: absolute; left: 17px; width: 78px; height: 39px; border: 5px solid var(--ink); }
+.loader-top { top: 8px; border-radius: 78px 78px 14px 14px; background: var(--red); transform-origin: center bottom; animation: loader-open-top 1.25s ease-in-out infinite; }
+.loader-top::after { content: ''; position: absolute; left: -5px; bottom: -7px; width: 78px; height: 9px; background: var(--ink); }
+.loader-bottom { bottom: 8px; border-radius: 14px 14px 78px 78px; background: white; transform-origin: center top; animation: loader-open-bottom 1.25s ease-in-out infinite; }
+.loader-energy { position: absolute; top: 48px; width: 30px; height: 46px; border-radius: 50%; background: repeating-linear-gradient(90deg, transparent 0 4px, #4ab6e8 4px 7px); opacity: .9; animation: loader-energy 1.25s ease-in-out infinite; }
+.app-loader strong { animation: loader-copy 1.25s ease-in-out infinite; }
+@keyframes loader-open-top { 0%, 100% { transform: translateY(12px); } 50% { transform: translateY(-6px) rotate(-4deg); } }
+@keyframes loader-open-bottom { 0%, 100% { transform: translateY(-12px); } 50% { transform: translateY(6px) rotate(4deg); } }
+@keyframes loader-energy { 0%, 100% { transform: scaleY(.55); opacity: .3; } 50% { transform: scaleY(1); opacity: 1; } }
+@keyframes loader-copy { 50% { opacity: .55; } }
 .site-footer { padding: 22px 24px; color: var(--muted); text-align: center; font-size: 12px; }
 .site-footer a { color: var(--blue); }
-@media (max-width: 600px) { .site-header { height: 68px; } .header-caption { display: none; } }
+@media (max-width: 600px) { .site-header { height: 68px; } .header-caption { display: none; } .app-loader { inset: 68px 0 0; } }

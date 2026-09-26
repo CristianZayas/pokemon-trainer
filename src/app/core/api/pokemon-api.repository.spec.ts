@@ -2,9 +2,9 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { PokemonApiRepository } from './pokemon-api.repository';
-import { apiBaseUrlInterceptor } from '../http/api-base-url.interceptor';
-import { requestSecurityInterceptor } from '../http/request-security.interceptor';
-import { ExternalContractError } from '../../domain/errors';
+import { apiBaseUrlInterceptor } from '@core/http/api-base-url.interceptor';
+import { requestSecurityInterceptor } from '@core/http/request-security.interceptor';
+import { ExternalContractError } from '@domain/errors';
 
 describe('PokemonApiRepository', () => {
   let repository: PokemonApiRepository;

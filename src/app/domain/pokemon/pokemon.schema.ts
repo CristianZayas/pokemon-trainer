@@ -24,13 +24,20 @@ export const STAT_MAXIMUMS = {
   speed: 180,
 } as const;
 
-export const STAT_LABELS: Record<keyof typeof STAT_MAXIMUMS, string> = {
-  hp: 'Salud', attack: 'Ataque', defense: 'Defensa',
-  'special-attack': 'Ataque especial', 'special-defense': 'Defensa especial', speed: 'Velocidad',
-};
-
 export type PokemonSummary = Readonly<{ id: number; name: string; sprite: string }>;
 export type Pokemon = Readonly<{ id: number; name: string; sprite: string; types: string[]; stats: { name: keyof typeof STAT_MAXIMUMS; value: number; percent: number }[] }>;
+
+export const PokemonSchema = z.object({
+  id: z.number().int().positive(),
+  name: z.string().min(1),
+  sprite: z.string(),
+  types: z.array(z.string()),
+  stats: z.array(z.object({
+    name: z.enum(['hp', 'attack', 'defense', 'special-attack', 'special-defense', 'speed']),
+    value: z.number().nonnegative(),
+    percent: z.number().min(0).max(100),
+  })),
+});
 
 export function mapPokemon(value: PokemonDetailResponse): Pokemon {
   return {

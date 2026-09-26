@@ -17,6 +17,12 @@ export const TrainerProfileSchema = z.object({
 
 export type TrainerProfile = z.infer<typeof TrainerProfileSchema>;
 
+export type TrainerProfileValidationError = 'document' | 'profile';
+
+export function getTrainerProfileValidationError(issues: z.core.$ZodIssue[]): TrainerProfileValidationError {
+  return issues.some(issue => issue.path[0] === 'document') ? 'document' : 'profile';
+}
+
 export function calculateAge(date: string, today = new Date()): number | null {
   const [year, month, day] = date.split('-').map(Number);
   if (!year || !month || !day) return null;

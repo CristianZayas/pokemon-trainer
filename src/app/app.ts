@@ -1,7 +1,8 @@
 import { Component, effect, inject } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { TrainerSessionStore } from './core/state/trainer-session.store';
+import { LoadingService } from '@core/http/loading.service';
+import { TrainerSessionStore } from '@core/state/trainer-session.store';
 
 @Component({
   imports: [RouterLink, RouterOutlet],
@@ -12,6 +13,7 @@ import { TrainerSessionStore } from './core/state/trainer-session.store';
 export class App {
   private readonly title = inject(Title);
   private readonly store = inject(TrainerSessionStore);
+  readonly loading = inject(LoadingService);
 
   constructor() {
     effect(() => {

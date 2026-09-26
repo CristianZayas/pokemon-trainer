@@ -7,5 +7,11 @@
     <span class="header-caption">Tu aventura comienza aquí</span>
   </header>
   <main class="app-main"><router-outlet /></main>
+  @if (loading.active() > 0) {
+    <div class="app-loader" role="status" aria-live="polite" aria-label="Cargando contenido">
+      <div class="loader-orb" aria-hidden="true"><span class="loader-top"></span><span class="loader-energy"></span><span class="loader-bottom"></span></div>
+      <strong>Cargando tu aventura...</strong>
+    </div>
+  }
   <footer class="site-footer">Pokémon Trainer · Datos de <a href="https://pokeapi.co/" target="_blank" rel="noopener noreferrer">PokéAPI</a></footer>
 </div>

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { ExternalContractError } from '../../domain/errors';
+import { ExternalContractError } from '@domain/errors';
 import { mapPokemon, Pokemon, PokemonDetailResponseSchema, PokemonListResponseSchema, PokemonSummary } from '../../domain/pokemon/pokemon.schema';
 
 @Injectable({ providedIn: 'root' })

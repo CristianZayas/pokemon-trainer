@@ -15,10 +15,14 @@ input[type=file] { position: absolute; width: 1px; height: 1px; opacity: 0; }
 .form-title h2 { font-size: 30px; margin: 8px 0; }
 .form-title p { color: var(--muted); font-size: 14px; }
 .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px 18px; margin-top: 24px; }
-.field { display: grid; gap: 8px; color: var(--ink); font-size: 13px; font-weight: 800; }
+.field { display: grid; align-content: start; gap: 8px; color: var(--ink); font-size: 13px; font-weight: 800; }
 .field.full { grid-column: 1 / -1; }
 .field input { width: 100%; min-width: 0; padding: 13px 14px; border-radius: 10px; border: 1px solid #d7e1eb; outline: none; background: white; color: var(--ink); font-size: 14px; font-weight: 500; }
 .field input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px #1765a51c; }
+.field input[type=date] { min-height: 48px; border-color: #bbd7eb; background: linear-gradient(135deg, #f8fbff, #fff); color: var(--ink); cursor: pointer; }
+.field input[type=date]::-webkit-datetime-edit { padding: 0; }
+.field input[type=date]::-webkit-calendar-picker-indicator { cursor: pointer; opacity: .75; }
+.field input[type=date]:hover { border-color: var(--blue); }
 .field-error { color: #bb3131; font-weight: 600; }
 .age-note { margin: 14px 0; color: var(--muted); font-size: 12px; }
 .form-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: auto; padding-top: 30px; }
