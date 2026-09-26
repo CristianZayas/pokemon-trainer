@@ -1,30 +1,36 @@
 <section class="page">
   <div class="page-heading summary-heading">
-    <div><span class="eyebrow">ENTRENADOR POKÉMON</span><h1>Mi perfil</h1><p>Este es tu equipo para comenzar la aventura.</p></div>
+    <div><span class="eyebrow">FICHA DE ENTRENADOR</span><h1>¡Hola {{ store.profile()?.name || 'Entrenador' }}!</h1><p>Tu equipo está listo para la próxima aventura.</p></div>
     <a routerLink="/perfil-entrenador" class="button button-secondary">Editar perfil</a>
   </div>
-  @if (store.profile(); as profile) {
-    <section class="trainer-card panel" aria-label="Datos del entrenador">
-      <div class="trainer-photo"><img [src]="profile.photoDataUrl" [alt]="'Fotografía de ' + profile.name" /></div>
-      <div class="trainer-info"><span class="eyebrow">MI ENTRENADOR</span><h2>{{ profile.name }}</h2><div class="info-grid">
-        <div><small>PASATIEMPO</small><strong>{{ profile.hobby || 'No especificado' }}</strong></div>
-        <div><small>EDAD</small><strong>{{ age() }} años</strong></div>
-        @if (profile.document) { <div><small>{{ (age() ?? 0) >= 18 ? 'DUI' : 'CARNET DE MINORIDAD' }}</small><strong>{{ profile.document }}</strong></div> }
-      </div></div>
-      <div class="card-pokeball" aria-hidden="true"></div>
-    </section>
-  }
-  <div class="section-heading"><div><span class="eyebrow">COMPAÑEROS DE AVENTURA</span><h2>Mi equipo Pokémon</h2></div><a routerLink="/seleccionar-equipo" class="button button-secondary">Editar Pokémon</a></div>
-  <div class="pokemon-grid">
-    @for (pokemon of store.team(); track pokemon.id) {
-      <article class="pokemon-card panel" [id]="'pokemon-' + slugs.create(pokemon.name)">
-        <div class="pokemon-top"><span>#{{ pokemon.id.toString().padStart(3, '0') }}</span><div class="type-list">@for (type of pokemon.types; track type) { <span class="type" [class]="'type type-' + type">{{ type }}</span> }</div></div>
-        <div class="sprite-wrap"><img [src]="pokemon.sprite" [alt]="'Sprite de ' + pokemon.name" width="180" height="180" /></div>
-        <h3>{{ pokemon.name }}</h3>
-        <div class="stats">@for (stat of pokemon.stats; track stat.name) {
-          <div class="stat-row"><div class="stat-label"><span>{{ statLabels[stat.name] }}</span><strong>{{ stat.value }}</strong></div><div class="stat-track" [attr.aria-label]="statLabels[stat.name] + ': ' + stat.value"><span [style.width.%]="stat.percent"></span></div></div>
-        }</div>
-      </article>
+  <div class="summary-dashboard">
+    @if (store.profile(); as profile) {
+      <section class="trainer-card panel" aria-label="Datos del entrenador">
+        <div class="trainer-photo"><img [src]="profile.photoDataUrl" [alt]="'Fotografía de ' + profile.name" /></div>
+        <div class="trainer-info"><span class="eyebrow">TU PERFIL</span><h2>Entrenador</h2><div class="trainer-status"><span class="status-dot" aria-hidden="true"></span> Aventura activa</div><div class="info-grid">
+          <div><small>PASATIEMPO</small><strong>{{ profile.hobby || 'No especificado' }}</strong></div>
+          <div><small>EDAD</small><strong>{{ age() }} años</strong></div>
+          @if (profile.document) { <div><small>{{ (age() ?? 0) >= 18 ? 'DUI' : 'CARNET DE MINORIDAD' }}</small><strong>{{ profile.document }}</strong></div> }
+        </div></div>
+        <div class="card-pokeball" aria-hidden="true"></div>
+      </section>
     }
+    <section class="team-section" aria-label="Mi equipo Pokémon">
+      <div class="section-heading"><div><span class="eyebrow">EQUIPO ACTIVO</span><h2>Mis Pokémon</h2><p>{{ store.team().length }} compañeros listos para combatir</p></div><a routerLink="/seleccionar-equipo" class="button button-secondary">Editar equipo</a></div>
+      <div class="pokemon-grid">
+        @for (pokemon of store.team(); track pokemon.id) {
+          <article class="pokemon-card panel" [id]="'pokemon-' + slugs.create(pokemon.name)">
+            <div class="pokemon-top"><span>#{{ pokemon.id.toString().padStart(3, '0') }}</span></div>
+            <div class="pokemon-content">
+              <div class="sprite-wrap"><img [src]="pokemon.sprite" [alt]="'Sprite de ' + pokemon.name" width="180" height="180" /></div>
+              <div class="pokemon-copy"><h3>{{ pokemon.name }}</h3><div class="type-list">@for (type of pokemon.types; track type) { <span class="type" [style.background-color]="typeStyle(type).background" [style.color]="typeStyle(type).foreground">{{ type }}</span> }</div></div>
+              <div class="stats">@for (stat of pokemon.stats; track stat.name) {
+                <div class="stat-row"><div class="stat-label"><span>{{ statLabels[stat.name] }}</span><strong>{{ stat.value }}</strong></div><div class="stat-track" [style.background-color]="statTrackColor(pokemon.types)" [attr.aria-label]="statLabels[stat.name] + ': ' + stat.value"><span [style.width.%]="stat.percent" [style.background]="statBarColor(pokemon.types)"></span></div></div>
+              }</div>
+            </div>
+          </article>
+        }
+      </div>
+    </section>
   </div>
 </section>
