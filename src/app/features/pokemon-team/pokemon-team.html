@@ -1,0 +1,46 @@
+<section class="page">
+  <div class="page-heading">
+    <span class="eyebrow">Paso 02 · Tu equipo</span>
+    <h1>Elige a tus compañeros</h1>
+    <p>Selecciona tres Pokémon de la primera generación para empezar tu aventura.</p>
+  </div>
+  <div class="team-layout">
+    <div class="catalog panel">
+      <div class="catalog-header"><div><h2>Primera generación</h2><p>151 Pokémon para descubrir</p></div><span class="count-badge">{{ filtered().length }} disponibles</span></div>
+      <label class="search-box"><span class="sr-only">Buscar por nombre o ID</span><span aria-hidden="true">⌕</span><input type="search" placeholder="Buscar por nombre o número..." [value]="query()" (input)="search($event)" /></label>
+      @if (error()) { <p class="notice notice-error" role="alert">{{ error() }} <button type="button" (click)="load()">Reintentar</button></p> }
+      @if (loading()) {
+        <div class="catalog-state" role="status"><span class="loading-ball" aria-hidden="true"></span><strong>Cargando Pokémon...</strong></div>
+      } @else if (!filtered().length) {
+        <div class="catalog-state">No encontramos Pokémon con esa búsqueda. Prueba otro nombre o número.</div>
+      } @else {
+        <cdk-virtual-scroll-viewport class="pokemon-viewport" itemSize="96" minBufferPx="384" maxBufferPx="768">
+          <div *cdkVirtualFor="let entry of filtered(); trackBy: trackById" class="pokemon-row">
+            <div class="pokemon-number">#{{ entry.id.toString().padStart(3, '0') }}</div>
+            <img [src]="entry.sprite" [alt]="'Sprite de ' + entry.name" loading="lazy" width="72" height="72" />
+            <strong>{{ entry.name }}</strong>
+            <button class="select-button" [class.selected]="isSelected(entry.id)" [disabled]="pendingId() !== null || (!isSelected(entry.id) && store.team().length >= 3)" [attr.aria-label]="(isSelected(entry.id) ? 'Quitar a ' : 'Elegir a ') + entry.name" (click)="toggle(entry)">
+              {{ pendingId() === entry.id ? 'Cargando...' : isSelected(entry.id) ? 'Elegido ✓' : 'Elegir +' }}
+            </button>
+          </div>
+        </cdk-virtual-scroll-viewport>
+      }
+    </div>
+    <aside class="selection panel">
+      <span class="eyebrow">TU EQUIPO</span><h2>{{ store.team().length }} de 3 Pokémon</h2><p>Tu equipo se mostrará en el perfil del entrenador.</p>
+      <div class="team-slots">
+        @for (slot of [0, 1, 2]; track slot) {
+          <div class="team-slot" [class.filled]="store.team()[slot]">
+            @if (store.team()[slot]; as selected) {
+              <img [src]="selected.sprite" [alt]="'Sprite de ' + selected.name" width="64" height="64" />
+              <span><small>POKÉMON 0{{ slot + 1 }}</small><strong>{{ selected.name }}</strong></span>
+              <button type="button" [attr.aria-label]="'Quitar a ' + selected.name" (click)="toggle({id: selected.id, name: selected.name, sprite: selected.sprite})">×</button>
+            } @else { <span class="empty-number">0{{ slot + 1 }}</span><span>Espacio disponible</span> }
+          </div>
+        }
+      </div>
+      <button class="button button-primary continue-button" [disabled]="!store.hasCompleteTeam()" (click)="continue()">Ver mi perfil <span aria-hidden="true">→</span></button>
+      <a routerLink="/perfil-entrenador" class="back-link">← Volver a mis datos</a>
+    </aside>
+  </div>
+</section>
