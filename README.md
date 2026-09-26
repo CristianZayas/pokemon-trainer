@@ -1,59 +1,56 @@
-# PokemonTrainer
+# Pokémon Trainer
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.2.0.
+Angular 22 standalone application for creating a trainer profile and selecting three first-generation Pokémon from [PokéAPI](https://pokeapi.co/).
 
-## Development server
+## Requirements
 
-To start a local development server, run:
+- Node.js 22 or newer and npm
+- Docker for container deployment
 
-```bash
-ng serve
+## Run locally
+
+```sh
+npm ci
+npm start
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Open `http://localhost:4200`. The app needs internet access to load PokéAPI and Pokémon sprites. Profile data, uploaded photo, and identification stay only in browser memory and are lost on refresh.
 
-## Code scaffolding
+## Checks
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```sh
+npm test
+npm run build
+npx playwright install chromium
+npm run test:e2e
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+The E2E test mocks PokéAPI to keep the flow deterministic. Unit tests cover validation, stat mapping, slug generation, and HTTP contracts.
 
-```bash
-ng generate --help
+## Production image
+
+```sh
+docker build -t pokemon-trainer .
+docker run --rm -p 8080:8080 pokemon-trainer
 ```
 
-## Building
+Open `http://localhost:8080`. The container serves the compiled SPA with an unprivileged Nginx process, a `/healthz` endpoint, a fallback for client routes, and security headers. Deploy it behind a TLS-terminating reverse proxy so users access it via HTTPS; verify the proxy preserves the security headers. The HSTS header applies to HTTPS responses seen by the browser.
 
-To build the project run:
+## Structure and decisions
 
-```bash
-ng build
-```
+- `core`: configuration, HTTP interceptors, PokéAPI repository, session store, guards, realtime adapters.
+- `domain`: Zod schemas and inferred types, mapping and business rules.
+- `features`: trainer form, Pokémon team selection, trainer summary. Routes are lazy loaded.
+- `shared`: reusable pure slug service.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+PokéAPI is read-only HTTP. The SockJS gateway is disabled by default through `APP_SETTINGS` because there is no realtime server in this exercise. To activate it, provide a compatible HTTPS SockJS endpoint and enable the flag; then extend Nginx CSP `connect-src` for that endpoint. The gateway transmits raw events and does not assume an undocumented STOMP protocol.
 
-## Running unit tests
+The request security interceptor limits API calls to the configured HTTPS origin. Zod validates external response bodies before domain mapping. TLS and browser certificate checks provide transport security; a frontend interceptor alone cannot prevent a man-in-the-middle attack.
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## Git Flow
 
-```bash
-ng test
-```
+Use `main` for releases, `develop` for integration, and `feature/*` for work branches. This exercise is implemented on `feature/pokemon-trainer` with one commit per phase. Open a pull request to `develop`, verify CI, then merge a tested release into `main`.
 
-## Running end-to-end tests
+## Design reference
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+The supplied Figma file established the screen flow. Its connector did not grant node inspection or asset export, so exact Figma tokens and illustration assets could not be verified. The implementation uses a coherent yellow/blue trainer layout and can be calibrated to Figma once inspection access is available.

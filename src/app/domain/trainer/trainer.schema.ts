@@ -5,7 +5,7 @@ export const TrainerProfileSchema = z.object({
   hobby: z.string().trim().max(100),
   birthDate: z.iso.date(),
   document: z.string().trim().max(32),
-  photoDataUrl: z.string().startsWith('data:image/'),
+  photoDataUrl: z.string().regex(/^data:image\/(png|jpeg|webp);base64,[a-zA-Z0-9+/=]+$/),
 }).superRefine((value, context) => {
   const age = calculateAge(value.birthDate);
   if (age === null) {

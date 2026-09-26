@@ -19,7 +19,10 @@ export class TrainerProfilePage {
   readonly age = computed(() => calculateAge(this.birthDate()));
   readonly isAdult = computed(() => (this.age() ?? 0) >= 18);
   readonly error = signal('');
-  readonly maxBirthDate = new Date().toISOString().slice(0, 10);
+  readonly maxBirthDate = (() => {
+    const today = new Date();
+    return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+  })();
   readonly isEditing = this.store.hasProfile();
 
   readonly form = new FormGroup({

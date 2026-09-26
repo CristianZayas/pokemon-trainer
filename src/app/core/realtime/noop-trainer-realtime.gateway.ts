@@ -5,6 +5,6 @@ import { TrainerRealtimePort } from './trainer-realtime.port';
 @Injectable()
 export class NoopTrainerRealtimeGateway implements TrainerRealtimePort {
   readonly events$ = EMPTY;
-  connect(): void {}
+  async connect(): Promise<void> {}
   disconnect(): void {}
 }

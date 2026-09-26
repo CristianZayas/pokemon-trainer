@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "vitest run",
+    "test:e2e": "playwright test"
   },
   "private": true,
   "packageManager": "npm@12.0.2",
@@ -27,6 +28,8 @@
     "@angular/cdk": "^22.2.0",
     "@angular/cli": "^22.2.0",
     "@angular/compiler-cli": "^22.2.0",
+    "@angular/platform-browser-dynamic": "^22.2.0",
+    "@playwright/test": "^1.63.0",
     "@tailwindcss/postcss": "^4.1.12",
     "@types/sockjs-client": "^1.5.4",
     "jsdom": "^30.0.0",
